@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseService } from './database.service';
+import { User } from '../entities/user.entity';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DatabaseService } from './database.service';
           password: String(config.get('USER_DB_PASSWORD')),
           database: config.get('USER_DB_NAME'),
           autoLoadEntities: true,
+          entities: [User],
           synchronize: true,
         };
       },
@@ -27,5 +29,6 @@ import { DatabaseService } from './database.service';
     }),
   ],
   providers: [DatabaseService],
+  exports: [TypeOrmModule]
 })
 export class DatabaseModule {}

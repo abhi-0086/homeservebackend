@@ -7,7 +7,10 @@ import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal:true,
+      envFilePath:'apps/api-gateway/.env'
+    }),
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',
@@ -15,8 +18,8 @@ import { AuthController } from './auth/auth.controller';
         useFactory: (configService : ConfigService) => ({
           transport: Transport.TCP,
           options:{
-            host: configService.get<string>('AUTH_SERVICE_HOST') || '0.0.0.0',
-            port: configService.get<number>('AUTH_SERVICE_PORT') || 8001,
+            host: configService.get<string>('AUTH_SERVICE_HOST'),
+            port: configService.get<number>('AUTH_SERVICE_PORT'),
           }
         }),
         inject: [ConfigService],
@@ -27,8 +30,8 @@ import { AuthController } from './auth/auth.controller';
         useFactory: (configService : ConfigService) => ({
           transport: Transport.TCP,
           options:{
-            host: configService.get<string>('USER_SERVICE_HOST') || '0.0.0.0',
-            port: configService.get<number>('USER_SERVICE_PORT') || 8002,
+            host: configService.get<string>('USER_SERVICE_HOST'),
+            port: configService.get<number>('USER_SERVICE_PORT'),
           }
         }),
         inject: [ConfigService],

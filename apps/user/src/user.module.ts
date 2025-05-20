@@ -5,6 +5,8 @@ import { DatabaseModule } from './database/database.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DatabaseService } from './database/database.service';
 import { UserService } from './user.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -13,6 +15,7 @@ import { UserService } from './user.service';
       envFilePath: 'apps/user/.env'
     }),
     DatabaseModule,
+    TypeOrmModule.forFeature([User]),
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',
